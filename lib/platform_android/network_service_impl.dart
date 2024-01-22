@@ -12,6 +12,8 @@ class NetworkServiceImpl implements NetworkService {
   @override
   Future<String> checkInternetConnection() async {
     try {
+      debugPrint(Uri.parse(FlutterConfig.get('BASE_URL') +
+          FlutterConfig.get('HEALTH_CHECK_PATH')).toString());
       final response = await http
           .get(Uri.parse(FlutterConfig.get('BASE_URL') +
               FlutterConfig.get('HEALTH_CHECK_PATH')))
@@ -35,6 +37,7 @@ class NetworkServiceImpl implements NetworkService {
         ActuatorInfo actuatorInfo =
             ActuatorInfo.fromJson(jsonDecode(response.body));
         versionInfo = actuatorInfo.build['version']!;
+        debugPrint("Version Info satisfied: $versionInfo");
       }
     } catch (e) {
       debugPrint("Fetch actuator info failed $e");

@@ -276,7 +276,12 @@ public class LocalClientCryptoServiceImpl implements ClientCryptoManagerService 
             byte[] encrypted_data = Arrays.copyOfRange(dataToDecrypt, KEYGEN_SYMMETRIC_KEY_LENGTH+CRYPTO_SYMMETRIC_IV_LENGTH+CRYPTO_SYMMETRIC_AAD_LENGTH, dataToDecrypt.length);
 
             // asymmetric decryption of secret key----------------------------------------------------
-            byte[] secretKeyBytes = asymmetricDecrypt(encryptedSecretKey);
+            Log.i(TAG, "Raw: " + cryptoRequestDto.getValue());
+            Log.i(TAG, "Data: " + Arrays.toString(dataToDecrypt));
+            Log.i(TAG, "Data length: " + dataToDecrypt.length);
+            Log.i(TAG, "Secret key: " + Arrays.toString(encryptedSecretKey));
+            Log.i(TAG, "Secret key length: " + encryptedSecretKey.length);
+            byte[] secretKeyBytes = asymmetricDecrypt(dataToDecrypt);
 
             SecretKey secretKey = new SecretKeySpec(secretKeyBytes, KEYGEN_SYMMETRIC_ALGORITHM);
             // symmetric decryption of data-----------------------------------------------------
